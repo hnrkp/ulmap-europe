@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>UL flying in Europe, difficulty scale</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+    <script type="text/javascript" src="apikey.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+      <div id="regions_div" style="width: 100%;"></div>
+      For reference, see <a href="http://emf.aero/mla-flying-in-europe/">The EMF.aero MLA flying in Europe guide</a>
+      <script type="text/javascript">
+      google.charts.load('current', {
+        'packages':['geochart'],
+        'mapsApiKey': myApiKey,
+      });
+      google.charts.setOnLoadCallback(drawRegionsMap);
+
+      function drawRegionsMap() {
+        var cm = [
+          ['Country', 'Difficulty'],
+          ['DE', 0],
+          ['SE', 0],
+          ['DK', 1],
+          ['GR', 1],
+          ['CZ', 0],
+          ['PL', 0],
+          ['SK', 1],
+          ['BE', 2],
+          ['NL', 0],
+          ['FR', 0],
+          ['United Kingdom', 2],
+          ['AT', 2],
+          ['HU', 0],
+          ['NO', 1],
+          ['FI', 0],
+          ['CH', 2],
+          ['IT', 2],
+          ['LU', 1],
+          ['ES', 2],
+          ['PT', 2],
+          ['RO', 0],
+          ['SI', 0],
+          ['BA', 0],
+          ['Bulgaria', 1],
+          ['Croatia', 0],
+          ['IE', 2],
+          ['LV', 0],
+          ['EE', 1],
+          ['LT', 1],
+          ['RU', 3],
+        ];
+
+        var data = google.visualization.arrayToDataTable(cm);
+        
+        var texts = {};
+
+        texts['AT'] = "Nobody knows if you can fly there. And you need a BRS chute.";
+        texts['BE'] = "Belgium is nice, but costs €plenty.";
+        texts['CH'] = "PPR to enter CTR, list of allowed ULAC can be found on website. Most common types usually OK.";
+        texts['DE'] = "Germany is fine.";
+        texts['DK'] = "Permission required.";
+        texts['ES'] = "Seems difficult. Max 1000ft AGL, and other strangeness.";
+        texts['IT'] = "Italy is ok, but you need a BRS chute.";
+        texts['NO'] = "Permission required.";
+        texts['RU'] = "Russia is difficult for GA. We just don't know.";
+        texts['SE'] = "Sweden is fine.";
+        texts['SK'] = "Permission required.";
+
+        var options = { 'region': 150, /* that's europe */
+            			      colorAxis: {colors: ['green', 'yellow', 'orange', 'red']},
+						      	    backgroundColor: '#81d4fa',
+          							datalessRegionColor: 'lightgrey',
+          							defaultColor: '#f5f5f5',
+                        tooltip: {textStyle: {color: '#FF0000'}, trigger: 'none'},
+                        legend: 'none'
+                      };
+
+        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+        chart.draw(data, options);
+
+        google.visualization.events.addListener(chart, 'select', selectHandler);
+
+        function selectHandler(e) {
+          var selection = chart.getSelection();
+          var message = '';
+
+          for (var i = 0; i < selection.length; i++) {
+            var item = selection[i];
+            if (item.row != null && texts[cm[item.row+1][0]] != null) {
+              alert(texts[cm[item.row+1][0]]);
+            }
+          }
+        }
+      }
+  </script>
+</body>
+</html>
+
