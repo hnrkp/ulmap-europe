@@ -1,10 +1,13 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <title>UL flying in Europe, difficulty scale</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
@@ -59,17 +62,17 @@
         
         var texts = {};
 
-        texts['AT'] = "Nobody knows if you can fly there. And you need a BRS chute.";
-        texts['BE'] = "Belgium is nice, but costs €plenty.";
-        texts['CH'] = "PPR to enter CTR, list of allowed ULAC can be found on website. Most common types usually OK.";
-        texts['DE'] = "Germany is fine.";
-        texts['DK'] = "Permission required.";
-        texts['ES'] = "Seems difficult. Max 1000ft AGL, and other strangeness.";
-        texts['IT'] = "Italy is ok, but you need a BRS chute.";
-        texts['NO'] = "Permission required.";
-        texts['RU'] = "Russia is difficult for GA. We just don't know.";
-        texts['SE'] = "Sweden is fine.";
-        texts['SK'] = "Permission required.";
+        texts['AT'] = ["Austria", "See <a target='_blank' href='https://www.ris.bka.gv.at/Dokumente/BgblAuth/BGBLA_2017_II_49/BGBLA_2017_II_49.pdfsig'>link</a>. Croatia, Czech republic, Germany, Hungary, Slovenia, Slovakia probably ok. All other countries are no go, it seems."];
+        texts['BE'] = ["Belgium", "Permission required, combined with a hefty fee in €."];
+        texts['CH'] = ["Switzerland", "PPR to enter CTR. Most common AC types usually allowed, but double check. Note that you probably need to land at an airport with customs. Please see <a target='_blank' href='http://www.ecolight.ch/NewFiles/Einflug.html'>ecolight.ch</a> for more info."];
+        texts['DE'] = ["Germany", "Check airport is open before arriving, since manned, open airport is required for landing."];
+        texts['DK'] = ["Denmark", "Permission required from DULFU."];
+        texts['ES'] = ["Spain", "Seems difficult. Max 1000ft AGL, and other strangeness."];
+        texts['IT'] = ["Italy", "No permission required, but you need a BRS chute."];
+        texts['NO'] = ["Norway", "Permission required."];
+        texts['RU'] = ["Russian federation", "Russia is difficult for GA. We just don't know."];
+        texts['SK'] = ["Slovakia", "Permission required."];
+        texts['United Kingdom'] = ["United Kingdom", "Permission required, outside Schengen, customs clearance, fee."];
 
         var options = { 'region': 150, /* that's europe */
             			      colorAxis: {colors: ['green', 'yellow', 'orange', 'red']},
@@ -93,12 +96,39 @@
           for (var i = 0; i < selection.length; i++) {
             var item = selection[i];
             if (item.row != null && texts[cm[item.row+1][0]] != null) {
-              alert(texts[cm[item.row+1][0]]);
+              $("#countryInfoTitle").html(texts[cm[item.row+1][0]][0])
+              $("#countryInfoBody").html(texts[cm[item.row+1][0]][1]);
+              $("#countryInfoModal").modal({backdrop: true});
+              $("#countryInfoButton").focus();
             }
           }
         }
       }
   </script>
+
+  <!-- Our info-modal -->
+  <div class="modal" id="countryInfoModal" tabindex="-1" role="dialog" aria-labelledby="countryInfoTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="countryInfoTitle">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div id="countryInfoBody" class="modal-body">
+          Info here!
+        </div>
+        <div class="modal-footer">
+          <button id="countryInfoButton" type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>
 
