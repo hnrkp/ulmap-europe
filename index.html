@@ -13,7 +13,7 @@
 <body>
     <script type="text/javascript" src="apikey.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-      <div id="regions_div" style="width: 100%;"></div>
+      <div id="regions_div" style="width: 1280px;"></div>
       For reference, see <a href="http://emf.aero/mla-flying-in-europe/">The EMF.aero MLA flying in Europe guide</a>
       <script type="text/javascript">
       google.charts.load('current', {
@@ -98,7 +98,7 @@
             if (item.row != null && texts[cm[item.row+1][0]] != null) {
               $("#countryInfoTitle").html(texts[cm[item.row+1][0]][0])
               $("#countryInfoBody").html(texts[cm[item.row+1][0]][1]);
-              $("#countryInfoModal").modal({backdrop: true});
+              $("#countryInfoModal").modal();
               $("#countryInfoButton").focus();
             }
           }
@@ -107,7 +107,7 @@
   </script>
 
   <!-- Our info-modal -->
-  <div class="modal" id="countryInfoModal" tabindex="-1" role="dialog" aria-labelledby="countryInfoTitle" aria-hidden="true">
+  <div class="modal fade" id="countryInfoModal" tabindex="-1" role="dialog" aria-labelledby="countryInfoTitle" aria-hidden="true" data-backdrop="false">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
