@@ -10,125 +10,168 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body>
-    <script type="text/javascript" src="apikey.js"></script>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-      <div id="regions_div" style="width: 1280px;"></div>
-      For reference, see <a href="http://emf.aero/mla-flying-in-europe/">The EMF.aero MLA flying in Europe guide</a>
-      <script type="text/javascript">
-      google.charts.load('current', {
-        'packages':['geochart'],
-        'mapsApiKey': myApiKey,
-      });
-      google.charts.setOnLoadCallback(drawRegionsMap);
+<body style="background-color: lightgray;">
+  <div height="padding: 20px">
+    <div style="overflow: auto; padding: 20px; margin-left: auto; margin-right: auto; background-color: #ffffff; width: 1000px; max-width: 100%;">
+      <h1>Cross border ultralight flying in Europe?</h1>
+      <p>
+        So, you fly ultralight/microlight aircraft in Europe? Flying cross-border? Feeling that a quick reference to the myriad of different
+        regulations and local rules that apply for taking your light aircraft across one borther or other was missing? Same here. That's why
+        this page was created.
+      </p>
+      <p>
+        The map below is color coded, with different colors indicating some sort of scale for difficulty involved when flying into the country
+        in question.
+        <ul>
+          <li>
+            Green means you most likely only need to file a flight plan and go.
+          </li>
+          <li>
+            Yellow that some sort of permission is required.
+          </li>
+          <li>
+            Orange for yellow but worse (like fees, loads of paperwork or strange requirements like helmets, not flying above 1000ft
+            or requiring a BRS parachute).
+          </li>
+          <li>
+            Red for really difficult, if at all possible.
+          </li>
+          <li>
+            Gray for I have no idea, please get in touch if you do.
+          </li>
+        </ul>
+      </p>
+      <p>
+        Clicking on a country might give more information!
+      </p>
 
-      function drawRegionsMap() {
-        var cm = [
-          ['Country', 'Difficulty'],
-          ['DE', 0],
-          ['SE', 0],
-          ['DK', 1],
-          ['GR', 1],
-          ['CZ', 0],
-          ['PL', 0],
-          ['SK', 1],
-          ['BE', 2],
-          ['NL', 0],
-          ['FR', 0],
-          ['United Kingdom', 2],
-          ['AT', 3],
-          ['HU', 0],
-          ['NO', 1],
-          ['FI', 0],
-          ['CH', 1],
-          ['IT', 2],
-          ['LU', 1],
-          ['ES', 2],
-          ['PT', 2],
-          ['RO', 0],
-          ['SI', 0],
-          ['BA', 0],
-          ['Bulgaria', 1],
-          ['Croatia', 0],
-          ['IE', 2],
-          ['LV', 0],
-          ['EE', 1],
-          ['LT', 1],
-          ['RU', 3],
-          ['AX', 0], // Åland
-        ];
-
-        var data = google.visualization.arrayToDataTable(cm);
-        
-        var texts = {};
-
-        texts['AT'] = ["Austria", "See <a target='_blank' href='https://www.ris.bka.gv.at/Dokumente/BgblAuth/BGBLA_2017_II_49/BGBLA_2017_II_49.pdfsig'>link</a>. Croatia, Czech republic, Germany, Hungary, Slovenia, Slovakia probably ok. All other countries are no go, it seems."];
-        texts['BE'] = ["Belgium", "Permission required, combined with a hefty fee in €."];
-        texts['CH'] = ["Switzerland", "PPR to enter CTR. Most common AC types usually allowed, but double check. Note that you probably need to land at an airport with customs. Please see <a target='_blank' href='http://www.ecolight.ch/NewFiles/Einflug.html'>ecolight.ch</a> for more info."];
-        texts['DE'] = ["Germany", "Check airport is open before arriving, since manned, open airport is required for landing."];
-        texts['DK'] = ["Denmark", "Permission required from DULFU."];
-        texts['ES'] = ["Spain", "Seems difficult. Max 1000ft AGL, and other strangeness."];
-        texts['IT'] = ["Italy", "No permission required, but you need a BRS chute."];
-        texts['NO'] = ["Norway", "Permission required."];
-        texts['RU'] = ["Russian federation", "Russia is difficult for GA. We just don't know."];
-        texts['SK'] = ["Slovakia", "Permission required."];
-        texts['United Kingdom'] = ["United Kingdom", "Permission required, outside Schengen, customs clearance, fee."];
-
-        var options = { 'region': 150, /* that's europe */
-            			      colorAxis: {colors: ['green', 'yellow', 'orange', 'red']},
-						      	    backgroundColor: '#81d4fa',
-          							datalessRegionColor: 'lightgrey',
-          							defaultColor: '#f5f5f5',
-                        tooltip: {textStyle: {color: '#FF0000'}, trigger: 'none'},
-                        legend: 'none'
-                      };
-
-        var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
-
-        chart.draw(data, options);
-
-        google.visualization.events.addListener(chart, 'select', selectHandler);
-
-        function selectHandler(e) {
-          var selection = chart.getSelection();
-          var message = '';
-
-          for (var i = 0; i < selection.length; i++) {
-            var item = selection[i];
-            if (item.row != null && texts[cm[item.row+1][0]] != null) {
-              $("#countryInfoTitle").html(texts[cm[item.row+1][0]][0])
-              $("#countryInfoBody").html(texts[cm[item.row+1][0]][1]);
-              $("#countryInfoModal").modal();
-              $("#countryInfoButton").focus();
-            }
-          }
-        }
-      }
-  </script>
-
-  <!-- Our info-modal -->
-  <div class="modal fade" id="countryInfoModal" tabindex="-1" role="dialog" aria-labelledby="countryInfoTitle" aria-hidden="true" data-backdrop="false">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="countryInfoTitle">Modal title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div id="countryInfoBody" class="modal-body">
-          Info here!
-        </div>
-        <div class="modal-footer">
-          <button id="countryInfoButton" type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      <!-- Our info-modal -->
+      <div class="modal fade" id="countryInfoModal" tabindex="-1" role="dialog" aria-labelledby="countryInfoTitle" aria-hidden="true" data-backdrop="false">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="countryInfoTitle">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div id="countryInfoBody" class="modal-body">
+              Info here!
+            </div>
+            <div class="modal-footer">
+              <button id="countryInfoButton" type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
         </div>
       </div>
+      <div>
+        <div style="width: 100%;" id="regions_div"></div>
+      </div>
+      <p>
+        For reference, see <a href="http://emf.aero/mla-flying-in-europe/">The EMF.aero MLA flying in Europe guide</a>
+      </p>
+      <p>
+        Contact info: <a href="mailto:henrik@egonsborg.com">E-mail</a> or even better visit on <a href="https://github.com/hnrkp/ulmap-europe/">GitHub</a>
+        where you can also file an issue, make a pull request or otherwise help improving the information and/or this website.
+      </p>
     </div>
   </div>
 
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="apikey.js"></script>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load('current', {
+      'packages':['geochart'],
+      'mapsApiKey': myApiKey,
+    });
+    google.charts.setOnLoadCallback(drawRegionsMap);
+
+    function drawRegionsMap() {
+      var cm = [
+        ['Country', 'Difficulty'],
+        ['DE', 0],
+        ['SE', 0],
+        ['DK', 1],
+        ['GR', 1],
+        ['CZ', 0],
+        ['PL', 0],
+        ['SK', 1],
+        ['BE', 2],
+        ['NL', 0],
+        ['FR', 0],
+        ['United Kingdom', 2],
+        ['AT', 3],
+        ['HU', 0],
+        ['NO', 1],
+        ['FI', 0],
+        ['CH', 1],
+        ['IT', 2],
+        ['LU', 1],
+        ['ES', 2],
+        ['PT', 2],
+        ['RO', 0],
+        ['SI', 0],
+        ['BA', 0],
+        ['Bulgaria', 1],
+        ['Croatia', 0],
+        ['IE', 2],
+        ['LV', 0],
+        ['EE', 1],
+        ['LT', 1],
+        ['RU', 3],
+        ['AX', 0], // Åland
+      ];
+
+      var data = google.visualization.arrayToDataTable(cm);
+      
+      var texts = {};
+
+      texts['AT'] = ["Austria", "See <a target='_blank' href='https://www.ris.bka.gv.at/Dokumente/BgblAuth/BGBLA_2017_II_49/BGBLA_2017_II_49.pdfsig'>link</a>. Croatia, Czech republic, Germany, Hungary, Slovenia, Slovakia probably ok. All other countries are no go, it seems."];
+      texts['BE'] = ["Belgium", "Permission required, combined with a hefty fee in €."];
+      texts['CH'] = ["Switzerland", "PPR to enter CTR. Most common AC types usually allowed, but double check. Note that you probably need to land at an airport with customs. Please see <a target='_blank' href='http://www.ecolight.ch/NewFiles/Einflug.html'>ecolight.ch</a> for more info."];
+      texts['DE'] = ["Germany", "Check airport is open before arriving, since manned, open airport is required for landing."];
+      texts['DK'] = ["Denmark", "Permission required from DULFU."];
+      texts['ES'] = ["Spain", "Seems difficult. Max 1000ft AGL, and other strangeness."];
+      texts['IT'] = ["Italy", "No permission required, but you need a BRS chute."];
+      texts['NO'] = ["Norway", "Permission required."];
+      texts['RU'] = ["Russian federation", "Russia is difficult for GA. We just don't know."];
+      texts['SK'] = ["Slovakia", "Permission required."];
+      texts['United Kingdom'] = ["United Kingdom", "Permission required, outside Schengen, customs clearance, fee."];
+
+      var options = { 'region': 150, /* that's europe */
+                      colorAxis: {colors: ['green', 'yellow', 'orange', 'red']},
+                      backgroundColor: '#81d4fa',
+                      datalessRegionColor: 'lightgrey',
+                      defaultColor: '#f5f5f5',
+                      tooltip: {textStyle: {color: '#FF0000'}, trigger: 'none'},
+                      legend: 'none'
+                    };
+
+      var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+      chart.draw(data, options);
+
+      google.visualization.events.addListener(chart, 'select', selectHandler);
+
+      function selectHandler(e) {
+        var selection = chart.getSelection();
+        var message = '';
+
+        for (var i = 0; i < selection.length; i++) {
+          var item = selection[i];
+          if (item.row != null && texts[cm[item.row+1][0]] != null) {
+            $("#countryInfoTitle").html(texts[cm[item.row+1][0]][0])
+            $("#countryInfoBody").html(texts[cm[item.row+1][0]][1]);
+            $("#countryInfoModal").modal();
+            $("#countryInfoButton").focus();
+          }
+        }
+      }
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>
 
